@@ -23,16 +23,17 @@ end
 
 # kelvin
 class Kelvin < Temperature
+  KELVIN_BASE = 273.15
   def inspect
     "#{@value} K"
   end
 
   def to_celsius
-    Celsius.new(@value - 273.15).to_celsius
+    Celsius.new(@value - KELVIN_BASE)
   end
 
   def to_fahrenheit
-    Fahrenheit.new((to_celsius.value * (9.0 / 5.0) + 32))
+    Fahrenheit.new((@value - KELVIN_BASE) * 9.0 / 5.0 + Fahrenheit::FAHRENHEIT_BASE)
   end
 end
 
@@ -43,27 +44,31 @@ class Celsius < Temperature
   end
 
   def to_kelvin
-    Kelvin.new(@value + 273.15).to_kelvin
+    Kelvin.new(@value + Kelvin::KELVIN_BASE)
   end
 
   def to_fahrenheit
-    Fahrenheit.new(@value * (9.0 / 5.0) + 32)
+    Fahrenheit.new((@value * 9 / 5) + Fahrenheit::FAHRENHEIT_BASE)
   end
 end
 
 # Fahrenheit
 class Fahrenheit < Temperature
+  FAHRENHEIT_BASE = 32
+
   def inspect
     "#{@value} °F"
   end
 
   def to_celsius
-    Celsius.new((@value - 32) * 5.0 / 9.0)
+    Celsius.new((@value - FAHRENHEIT_BASE) * 5.0 / 9.0)
   end
 
   def to_kelvin
-    Kelvin.new(to_celsius.value + 273.15)
+    Kelvin.new((@value - FAHRENHEIT_BASE) * 5.0 / 9.0 + Kelvin::KELVIN_BASE)
   end
 end
 
-p Celsius.new(100).to_kelvin
+# p Celsius.new(100).to_kelvin
+
+# p Kelvin::CONVERSION_FACTOR
